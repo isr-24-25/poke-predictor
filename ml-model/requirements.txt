@@ -1,0 +1,12 @@
+setuptools
+ipykernel
+numpy
+torch
+torchvision
+torchaudio
+wheel
+scikit-learn
+dotenv
+psycopg2
+pandas
+sqlalchemy
