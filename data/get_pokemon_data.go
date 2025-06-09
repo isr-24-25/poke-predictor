@@ -8,22 +8,6 @@ import (
 	"net/http"
 )
 
-type PokeAPIResponse struct {
-	ID    int    `json:"id"`
-	Name  string `json:"name"`
-	Stats []struct {
-		BaseStat int `json:"base_stat"`
-		Stat     struct {
-			Name string `json:"name"`
-		} `json:"stat"`
-	} `json:"stats"`
-	Types []struct {
-		Type struct {
-			Name string `json:"name"`
-		} `json:"type"`
-	} `json:"types"`
-}
-
 func GetPokemonBaseStats(generation uint32) []BaseStats {
 	var stats []BaseStats;
 

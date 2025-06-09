@@ -16,6 +16,22 @@ var (
 	PokemonEndpoint = "https://pokeapi.co/api/v2/"
 )
 
+type PokeAPIResponse struct {
+	ID    int    `json:"id"`
+	Name  string `json:"name"`
+	Stats []struct {
+		BaseStat int `json:"base_stat"`
+		Stat     struct {
+			Name string `json:"name"`
+		} `json:"stat"`
+	} `json:"stats"`
+	Types []struct {
+		Type struct {
+			Name string `json:"name"`
+		} `json:"type"`
+	} `json:"types"`
+}
+
 type BaseStats struct {
 	ID         int
 	Name       string
