@@ -9,4 +9,3 @@ scikit-learn
 dotenv
 psycopg2
 pandas
-sqlalchemy
