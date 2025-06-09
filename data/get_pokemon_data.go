@@ -17,14 +17,18 @@ type PokeAPIResponse struct {
 			Name string `json:"name"`
 		} `json:"stat"`
 	} `json:"stats"`
+	Types []struct {
+		Type struct {
+			Name string `json:"name"`
+		} `json:"type"`
+	} `json:"types"`
 }
 
-func GetPokemonData(generation uint32) []BaseStats {
+func GetPokemonBaseStats(generation uint32) []BaseStats {
 	var stats []BaseStats;
 
 	for k := 1; k <= int(Generations[generation]); k++ {
 		formattedEndpoint := fmt.Sprintf("%s/%s", PokemonEndpoint, fmt.Sprintf("pokemon/%d", k))
-		
 		response, err := http.Get(formattedEndpoint)
 		if err != nil {
 			log.Fatal(err)
@@ -69,4 +73,39 @@ func GetPokemonData(generation uint32) []BaseStats {
 	}
 
 	return stats
+}
+
+func GetPokemonTypes(generation uint32) [][]string {
+	var pokemonTypes [][]string;
+
+	for k := 1; k <= int(Generations[generation]); k++ {
+		formattedEndpoint := fmt.Sprintf("%s/%s", PokemonEndpoint, fmt.Sprintf("pokemon/%d", k))
+		response, err := http.Get(formattedEndpoint)
+		if err != nil {
+			log.Fatal(err)
+			return nil
+		}
+
+		var apiResponse PokeAPIResponse; 
+		defer response.Body.Close()
+		body, err := io.ReadAll(response.Body)
+		if err != nil {
+			log.Fatal(err)
+			return nil
+		}
+
+		err = json.Unmarshal(body, &apiResponse)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		var typeNames []string
+		for _, t := range apiResponse.Types {
+			typeNames = append(typeNames, t.Type.Name)
+		}
+		
+		pokemonTypes = append(pokemonTypes, typeNames)
+	}
+
+	return pokemonTypes
 }
